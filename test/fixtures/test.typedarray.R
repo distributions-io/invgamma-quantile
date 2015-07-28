@@ -1,10 +1,11 @@
 options( digits = 16 )
 library( jsonlite )
+library( pscl )
 
 
-alpha = 1
-beta = 1
-probs = seq( 0, 1, 0.01 )
+alpha = 7
+beta = 2
+probs = seq( 0.01, 0.99, 0.01 )
 y = qigamma( probs, alpha, beta )
 
 cat( y, sep = ",\n" )
