@@ -1,13 +1,13 @@
 Quantile Function
 ===
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependencies][dependencies-image]][dependencies-url]
+[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][codecov-image]][codecov-url] [![Dependencies][dependencies-image]][dependencies-url]
 
 > [Inverse Gamma](https://en.wikipedia.org/wiki/Inverse Gamma_distribution) distribution [quantile function](https://en.wikipedia.org/wiki/Quantile_function).
 
 The [quantile function](https://en.wikipedia.org/wiki/Quantile_function) for a [Inverse Gamma](https://en.wikipedia.org/wiki/Inverse Gamma_distribution) random variable is
 
-<div class="equation" align="center" data-raw-text="" data-equation="eq:quantile_function">
-	<img src="" alt="Quantile function for a Inverse Gamma distribution.">
+<div class="equation" align="center" data-raw-text="Q(p;\alpha,\beta) = \frac{\beta \Gamma(\alpha)}{\Gamma(\alpha, p)}" data-equation="eq:quantile_function">
+	<img src="https://cdn.rawgit.com/distributions-io/invgamma-quantile/d8029b9d298288e62d86b36de22917863958d382/docs/img/eqn.svg" alt="Quantile function for a Inverse Gamma distribution.">
 	<br>
 </div>
 
@@ -40,15 +40,15 @@ var matrix = require( 'dstructs-matrix' ),
 	i;
 
 out = quantile( 0.25 );
-// returns
+// returns ~0.721
 
 x = [ 0, 0.2, 0.4, 0.6, 0.8, 1 ];
 out = quantile( x );
-// returns [...]
+// returns [ 0, ~0.621, ~1.091, ~1.958, ~4.481, +Infinity ]
 
 x = new Float32Array( x );
 out = quantile( x );
-// returns Float64Array( [...] )
+// returns Float64Array( [0,~0.621,~1.091,~1.958,~4.481,+Infinity] )
 
 x = new Float32Array( 6 );
 for ( i = 0; i < 6; i++ ) {
@@ -63,9 +63,9 @@ mat = matrix( x, [3,2], 'float32' );
 
 out = quantile( mat );
 /*
-	[
-
-	   ]
+	[  0     ~0.558
+	  ~0.91  ~1.443
+	  ~2.466 ~5.485 ]
 */
 ```
 
@@ -88,7 +88,7 @@ var out = quantile( x, {
 	'alpha': 3,
 	'beta': 6
 });
-// returns [...]
+// returns [ 0, ~1.315, ~1.748, ~2.244, ~2.946, ~4.284 ]
 ```
 
 For non-numeric `arrays`, provide an accessor `function` for accessing `array` values.
@@ -110,7 +110,7 @@ function getValue( d, i ) {
 var out = quantile( data, {
 	'accessor': getValue
 });
-// returns [...]
+// returns [ 0, ~0.621, ~1.091, ~1.958, ~4.481, +Infinity ]
 ```
 
 
@@ -132,12 +132,12 @@ var out = quantile( data, {
 });
 /*
 	[
-		{'x':[0,]},
-		{'x':[1,]},
-		{'x':[2,]},
-		{'x':[3,]},
-		{'x':[4,]},
-		{'x':[5,]}
+		{'x':[0,0]},
+		{'x':[1,~0.621]},
+		{'x':[2,~1.091]},
+		{'x':[3,~1.958]},
+		{'x':[4,~4.481]},
+		{'x':[5,+Infinity]}
 	]
 */
 
@@ -155,13 +155,13 @@ x = new Float32Array( [0.2,0.4,0.6,0.8] );
 out = quantile( x, {
 	'dtype': 'int32'
 });
-// returns Int32Array( [...] )
+// returns Int32Array( [0,1,1,4] )
 
 // Works for plain arrays, as well...
 out = quantile( [0.2,0.4,0.6,0.8], {
 	'dtype': 'uint8'
 });
-// returns Uint8Array( [...] )
+// returns Uint8Array( [0,1,1,4] )
 ```
 
 By default, the function returns a new data structure. To mutate the input data structure (e.g., when input values can be discarded or when optimizing memory usage), set the `copy` option to `false`.
@@ -178,7 +178,7 @@ x = [ 0, 0.2, 0.4, 0.6, 0.8, 1 ];
 out = quantile( x, {
 	'copy': false
 });
-// returns [...]
+// returns [ 0, ~0.621, ~1.091, ~1.958, ~4.481, +Infinity ]
 
 bool = ( x === out );
 // returns true
@@ -198,9 +198,9 @@ out = quantile( mat, {
 	'copy': false
 });
 /*
-	[
-
-	   ]
+	[  0     ~0.558
+	  ~0.91  ~1.443
+	  ~2.466 ~5.485 ]
 */
 
 bool = ( mat === out );
@@ -389,8 +389,8 @@ Copyright &copy; 2015. The [Compute.io](https://github.com/compute-io) Authors.
 [travis-image]: http://img.shields.io/travis/distributions-io/invgamma-quantile/master.svg
 [travis-url]: https://travis-ci.org/distributions-io/invgamma-quantile
 
-[coveralls-image]: https://img.shields.io/coveralls/distributions-io/invgamma-quantile/master.svg
-[coveralls-url]: https://coveralls.io/r/distributions-io/invgamma-quantile?branch=master
+[codecov-image]: https://img.shields.io/codecov/github/distributions-io/invgamma-quantile/master.svg
+[codecov-url]: https://codecov.io/github/distributions-io/invgamma-quantile?branch=master
 
 [dependencies-image]: http://img.shields.io/david/distributions-io/invgamma-quantile.svg
 [dependencies-url]: https://david-dm.org/distributions-io/invgamma-quantile
